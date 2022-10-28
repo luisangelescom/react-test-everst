@@ -1,9 +1,9 @@
-import { ChangeEvent, FormEvent, useState, useRef } from "react";
-
-import testData from "./utils/data";
+import { ChangeEvent, FormEvent, useState, useRef, useEffect } from "react";
 
 import ListCountry from "./components/ListCountry";
 import Form from "./components/Form";
+
+import userFetchData from "./hooks/useFetchData";
 
 import "./App.css";
 interface countries {
@@ -11,11 +11,12 @@ interface countries {
   code: string;
 }
 
-const dataAll: countries[] = testData;
-
 function App(): JSX.Element {
   const [results, setResults] = useState<countries[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { data, loading } = userFetchData();
+
+  useEffect(() => {}, []);
 
   const onSubmit = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
@@ -23,7 +24,7 @@ function App(): JSX.Element {
 
   const onChange = (evt: ChangeEvent<HTMLInputElement>): void => {
     setResults(
-      dataAll.filter((f) => {
+      data.filter((f) => {
         const valueInput = evt.target.value.trim().toUpperCase();
         const dataName = f.name.toUpperCase();
         const dataCode = f.code.toUpperCase();
@@ -45,12 +46,22 @@ function App(): JSX.Element {
 
   return (
     <div className="container">
-      <Form onChange={onChange} onSubmit={onSubmit} ref={inputRef}></Form>
-      <ListCountry
-        results={results}
-        onClick={onClick}
-        select={inputRef.current?.value}
-      />
+      {loading ? (
+        <div className="center-loading">
+          <div className="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <h1>Loading</h1>
+        </div>
+      ) : (
+        <>
+          <Form onChange={onChange} onSubmit={onSubmit} ref={inputRef}></Form>
+          <ListCountry results={results} onClick={onClick} />
+        </>
+      )}
     </div>
   );
 }
