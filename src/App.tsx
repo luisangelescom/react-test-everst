@@ -1,24 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ChangeEvent, FormEvent, useState, useRef } from "react";
 
-function App() {
+import testData from "./utils/data";
+
+import ListCountry from "./components/ListCountry";
+import Form from "./components/Form";
+
+import "./App.css";
+interface countries {
+  name: string;
+  code: string;
+}
+
+const dataAll: countries[] = testData;
+
+function App(): JSX.Element {
+  const [results, setResults] = useState<countries[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onSubmit = (evt: FormEvent<HTMLFormElement>): void => {
+    evt.preventDefault();
+  };
+
+  const onChange = (evt: ChangeEvent<HTMLInputElement>): void => {
+    setResults(
+      dataAll.filter((f) => {
+        const valueInput = evt.target.value.trim().toUpperCase();
+        const dataName = f.name.toUpperCase();
+        const dataCode = f.code.toUpperCase();
+
+        return (
+          valueInput.length > 0 &&
+          (dataName.includes(valueInput) || dataCode.includes(valueInput))
+        );
+      })
+    );
+  };
+
+  const onClick = (value: string): void => {
+    if (inputRef.current?.value != null) {
+      inputRef.current.value &&= value;
+      setResults([]);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Form onChange={onChange} onSubmit={onSubmit} ref={inputRef}></Form>
+      <ListCountry
+        results={results}
+        onClick={onClick}
+        select={inputRef.current?.value}
+      />
     </div>
   );
 }
