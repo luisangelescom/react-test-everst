@@ -57,10 +57,22 @@ function App(): JSX.Element {
           <h1>Loading</h1>
         </div>
       ) : (
-        <>
+        <div
+          style={{
+            width: "25rem",
+            border: "1px solid black",
+            borderRadius: 30,
+            display: "flex",
+            flexDirection: "column",
+            minHeight: 20,
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "1rem",
+          }}
+        >
           <Form onChange={onChange} onSubmit={onSubmit} ref={inputRef}></Form>
           <ListCountry results={results} onClick={onClick} />
-        </>
+        </div>
       )}
     </div>
   );
