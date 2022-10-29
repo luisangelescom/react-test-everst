@@ -5,14 +5,10 @@ import Form from "./components/Form";
 
 import userFetchData from "./hooks/useFetchData";
 
-import "./App.css";
-interface countries {
-  name: string;
-  code: string;
-}
+import { countries } from "./interface/data";
 
 function App(): JSX.Element {
-  const [results, setResults] = useState<countries[]>([]);
+  const [results, setResults] = useState<countries>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const { data, loading } = userFetchData();
 
@@ -57,19 +53,7 @@ function App(): JSX.Element {
           <h1>Loading</h1>
         </div>
       ) : (
-        <div
-          style={{
-            width: "25rem",
-            border: "1px solid black",
-            borderRadius: 30,
-            display: "flex",
-            flexDirection: "column",
-            minHeight: 20,
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "1rem",
-          }}
-        >
+        <div className="border-container">
           <Form onChange={onChange} onSubmit={onSubmit} ref={inputRef}></Form>
           <ListCountry results={results} onClick={onClick} />
         </div>
