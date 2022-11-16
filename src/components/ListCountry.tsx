@@ -9,6 +9,23 @@ interface Props {
 const ListCountry = ({ results, onClick }: Props): JSX.Element => {
   const uniqueID = useId();
 
+  if (results.length === 0) {
+    return (
+      <div className="list-countries">
+        <div
+          className="show-element"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <span>Escriba un valor valido</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="list-countries">
       {results.map((data: country, index: number) => (

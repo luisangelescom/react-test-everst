@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, forwardRef } from "react";
+import { ChangeEvent, FormEvent, forwardRef, memo } from "react";
+import withExtraInfo from "../wrapper-loading";
 
 interface Props {
   onSubmit: (evt: FormEvent<HTMLFormElement>) => void;
@@ -23,4 +24,6 @@ const Form = forwardRef<HTMLInputElement, Props>(function Form(
   );
 });
 
-export default Form;
+Form.displayName = "Form";
+
+export default memo(withExtraInfo(Form));

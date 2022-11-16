@@ -5,11 +5,13 @@ module.exports = {
   },
   extends: ["plugin:react/recommended", "standard-with-typescript", "prettier"],
   overrides: [],
+  // parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: "latest",
     sourceType: "module",
+    ecmaVersion: "latest",
     project: ["tsconfig.json"],
   },
+
   plugins: ["react"],
   rules: { "react/react-in-jsx-scope": "off" },
 };
